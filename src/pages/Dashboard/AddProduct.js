@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useAddProductsMutation } from "../../features/api/apiSlice";
+import { useAddProductMutation } from "../../features/api/apiSlice";
 
 const AddProduct = () => {
-  const [postProduct, result] = useAddProductsMutation();
+  const [addProduct, result] = useAddProductMutation();
   const { isLoading, isSuccess, isError, error } = result;
 
   const { register, handleSubmit, reset } = useForm();
@@ -37,7 +37,7 @@ const AddProduct = () => {
       spec: [],
     };
     // console.log(product);
-    postProduct(product)
+    addProduct(product)
   };
 
   return (
