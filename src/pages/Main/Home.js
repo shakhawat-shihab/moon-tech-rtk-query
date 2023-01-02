@@ -15,10 +15,11 @@ const Home = () => {
   const { brands, stock } = filter;
 
 
-  const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery(null, {
-    refetchOnMountOrArgChange: true
-  });
-  console.log('data ', data);
+  // const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery(null, {
+  //   refetchOnMountOrArgChange: true
+  // });
+  const { data, isLoading, isSuccess, isError, error } = useGetProductsQuery();
+  // console.log('data ', data);
   const products = data?.data;
 
   let content;

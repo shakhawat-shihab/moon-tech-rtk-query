@@ -2,38 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GrEdit } from "react-icons/gr";
 import { Link, useLocation } from "react-router-dom";
-// import { getProducts, removeProduct, toggleDeleteSuccess } from "../../features/products/productsSlice";
 import { toast } from "react-hot-toast";
+import { useDeleteProductMutation, useGetProductsQuery } from "../../features/api/apiSlice";
 
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const dispatch = useDispatch();
-  // const { products, isLoading, deleteSuccess, isError, error } = useSelector(state => state?.products)
+  const [deleteProduct, result] = useDeleteProductMutation();
+  const { isLoading, isSuccess } = result;
   const { pathname } = useLocation();
 
+  const { data } = useGetProductsQuery();
+  const products = data?.data;
+
   useEffect(() => {
-    fetch("http://localhost:5000/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data));
+    if (!isLoading && isSuccess) {
+      toast.success("Successfully removed", { id: "removeProduct" })
+    }
+  }, [isLoading, isSuccess])
 
-  }, []);
-
-
-  // useEffect(() => {
-  //   dispatch(getProducts());
-  // }, [dispatch])
-
-  // useEffect(() => {
-  //   if (!isLoading && deleteSuccess) {
-  //     toast.success("Successfully removed", { id: "removeProduct" })
-  //     // toggleDeleteSuccess();
-  //   }
-  // }, [isLoading, deleteSuccess])
-
-  // if (isLoading) {
-  //   return <p>Loading...</p>
-  // }
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div class='flex flex-col justify-center items-center h-full w-full '>
@@ -107,9 +96,7 @@ const ProductList = () => {
                     <div class='flex justify-center'>
                       <button
                         onClick={() => {
-                          // dispatch(removeProduct(_id))
-                          // dispatch(removeFromList(_id))
-                          // console.log('delete clicked')
+                          deleteProduct(_id)
                         }}
                       >
                         <svg
